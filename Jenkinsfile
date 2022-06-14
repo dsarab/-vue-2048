@@ -1,13 +1,15 @@
 
 pipeline {
     agent any
+    options {
+        ansiColor('xterm')
+    }
     stages {
         stage('Build') {
             steps {
               sh "docker-compose build"
             }
-
-        }
+    }
     stage('Publish') {
                  steps{
                     sshagent(['github-ssh']){
