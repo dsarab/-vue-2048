@@ -9,5 +9,5 @@ FROM nginx:1.12-alpine
 COPY --from=build-deps /opt/vue-2048/dist/  /usr/share/nginx/html/
 
 #
-#FROM httpd:latest
-#COPY --from=build-deps ./opt/vue-2048/dist/* /usr/local/apache2/htdocs/
+#FROM httpd as runtime
+#COPY --from=build-deps /opt/vue-2048/dist/ /usr/local/apache2/htdocs/
