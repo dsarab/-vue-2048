@@ -5,6 +5,7 @@ pipeline {
         ansiColor('xterm')
         timestamps ()
         disableConcurrentBuilds ()
+        builDiscarder(logRotaror(numToKeepStr: '5', artifactNumToKeepStr: '5'))
     }
 
     
