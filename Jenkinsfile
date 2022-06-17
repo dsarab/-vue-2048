@@ -1,29 +1,30 @@
 pipeline {
     agent any
-    stages {
-        stage('Qa') {
+    stages{
+
+        stage('Parallel qa') {
           parallel{
-            stage('Parallel1') {
-                sh "trivy filesystem -f json -o results.json ."
-                recordIssues(tools: [trivy(pattern: 'results.json')])
+
+            stage('Parallel1'){
+              steps{
+                  sh "trivy filesystem -f json -o results.json ."
+                  recordIssues(tools: [trivy(pattern: 'results.json')])
+
+              }
             }
-            stage('Parallel2') {
-                 sh"trivy image -f json -o results2.json vue-2048"
-                 recordIssues(tools: [trivy(pattern: 'results2.json')])
+            stage('Parallel2'){
+              steps{
+
+                    sh "trivy image -f json -o results2.json nginx:latest"
+                    recordIssues(tools: [trivy(pattern: 'results2.json')])
+
+              }
+
             }
+
+            }
+
           }
-
-
-
-                    //steps {
-                      //sh "trivy filesystem -f json -o results.json ."
-                      //recordIssues(tools: [trivy(pattern: 'results.json')])
-
-                      //sh"trivy image -f json -o results2.json vue-2048"
-                      //recordIssues(tools: [trivy(pattern: 'results2.json')])
-
-                   // }
-        }
         stage('Build') {
             steps {
               sh "docker-compose build"
@@ -36,6 +37,9 @@ pipeline {
                             //jacoco()
                             //recordIssues(tools: [pmdParser(pattern: 'build/reports/pmd/*.xml')])
                             //recordIssues(tools: [pit(pattern: 'build/reports/pitest/*.xml')])
+                         //recordIssues(tools: [trivy(pattern: 'results.json')])
+                         //recordIssues(tools: [trivy(pattern: 'results2.json')])
+
                         //}
 
           //}
@@ -44,7 +48,7 @@ pipeline {
 
         stage('Publish') {
                  steps{
-                    sshagent(['github-ssh']){
+                    sshagent(['git-1']){
                         sh 'git tag BUILD-1.0.${BUILD_NUMBER}'
                         sh 'git push --tags'
                     }
@@ -52,4 +56,3 @@ pipeline {
             }
         }
     }
-
