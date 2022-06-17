@@ -1,8 +1,20 @@
 pipeline {
     agent any
     stages {
-
         stage('Qa') {
+          parallel{
+            parallel1 {
+                sh "trivy filesystem -f json -o results.json ."
+                recordIssues(tools: [trivy(pattern: 'results.json')])
+            }
+            parallel2 {
+                 sh"trivy image -f json -o results2.json vue-2048"
+                 recordIssues(tools: [trivy(pattern: 'results2.json')])
+            }
+           }
+
+
+
                     steps {
                       //sh "trivy filesystem -f json -o results.json ."
                       //recordIssues(tools: [trivy(pattern: 'results.json')])
