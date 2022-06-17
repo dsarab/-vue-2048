@@ -7,8 +7,8 @@ pipeline {
                       sh "trivy filesystem -f json -o results.json ."
                       recordIssues(tools: [trivy(pattern: 'results.json')])
 
-                      sh"trivy image -f json -o results.json vue-2048 ."
-                      recordIssues(tools: [trivy(pattern: 'results2.json')])
+                      //sh"trivy image -f json -o results.json vue-2048 ."
+                      //recordIssues(tools: [trivy(pattern: 'results2.json')])
 
                     }
         }
@@ -24,7 +24,6 @@ pipeline {
                             //jacoco()
                             //recordIssues(tools: [pmdParser(pattern: 'build/reports/pmd/*.xml')])
                             //recordIssues(tools: [pit(pattern: 'build/reports/pitest/*.xml')])
-
                         }
 
           }
