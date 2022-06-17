@@ -6,6 +6,10 @@ pipeline {
                     steps {
                       sh "trivy filesystem -f json -o results.json ."
                       recordIssues(tools: [trivy(pattern: 'results.json')])
+
+                      sh"trivy image -f json -o results.json vue-2048 ."
+                      recordIssues(tools: [trivy(pattern: 'results2.json')])
+
                     }
         }
         stage('Build') {
