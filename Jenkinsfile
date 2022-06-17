@@ -8,7 +8,7 @@ pipeline {
             stage('Parallel1'){
               steps{
                   sh "trivy filesystem -f json -o results.json ."
-                  recordIssues(tools: [trivy(pattern: 'results.json')])
+                  recordIssues(tools: [trivy(id: ''repo', pattern: 'results.json')])
 
               }
             }
@@ -16,7 +16,7 @@ pipeline {
               steps{
 
                     sh "trivy image -f json -o results2.json nginx:latest"
-                    recordIssues(tools: [trivy(pattern: 'results2.json')])
+                    recordIssues(tools: [trivy(id: 'image', pattern: 'results2.json')])
 
               }
 
