@@ -4,7 +4,7 @@ pipeline {
 
         stage('Qa') {
                     steps {
-                      sh "trivy filesystem -f json -o results.json ."
+                      sh "trivy filesystem -f json results.json ."
                     }
         }
         stage('Build') {
