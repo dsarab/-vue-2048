@@ -4,7 +4,8 @@ pipeline {
 
         stage('Qa') {
                     steps {
-                      sh "trivy filesystem -f json -o results.json vue-2048"
+                      sh "trivy filesystem -f json -o ./vue-2048/results.json vue-2048
+"
                     }
         }
         stage('Build') {
