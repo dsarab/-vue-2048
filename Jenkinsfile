@@ -3,11 +3,11 @@ pipeline {
     stages {
         stage('Qa') {
           parallel{
-            parallel1 {
+            stage('Parallel1') {
                 sh "trivy filesystem -f json -o results.json ."
                 recordIssues(tools: [trivy(pattern: 'results.json')])
             }
-            parallel2 {
+            stage('Parallel2') {
                  sh"trivy image -f json -o results2.json vue-2048"
                  recordIssues(tools: [trivy(pattern: 'results2.json')])
             }
