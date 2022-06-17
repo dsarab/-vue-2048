@@ -12,7 +12,7 @@ pipeline {
               sh "docker-compose build"
             }
 
-         post {
+          post {
                         success {
                             //junit 'build/test-results/test/*.xml'
                             //archiveArtifacts 'build/libs/*.jar'
@@ -22,10 +22,10 @@ pipeline {
                          recordIssues(tools: [trivy(pattern: 'results.json')])
                         }
 
-                    }
+          }
 
         }
-    stage('Publish') {
+
         stage('Publish') {
                  steps{
                     sshagent(['github-ssh']){
