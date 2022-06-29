@@ -44,6 +44,11 @@ pipeline {
              steps{
                 withCredentials([usernamePassword(credentialsId: '8cfe86f5-3821-4503-a33b-76e79a25789d', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
                     sh 'echo "${PASS}" | docker login -u ${USER} --password-stdin'
+                    sh 'docker tag vue-2048 ${USER}/2048:latest'
+                    sh 'docker tag vue-2048 ${USER}/2048:BUILD-1.0.${BUILD_NUMBER}'
+                    sh 'docker push ${USER}/vue-2048:latest'
+                    sh 'docker push ${USER}/vue-2048:latest'
+
                 }
              }
         }
