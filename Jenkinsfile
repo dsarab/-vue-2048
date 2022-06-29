@@ -62,18 +62,19 @@ pipeline {
                  sh 'docker tag dsarab/2048:latest ghcr.io/dsarab/2048:BUILD-1.0.${BUILD_NUMBER'
                  sh 'docker push ghcr.io/dsarab/2048:latest'
                  sh 'docker push ghcr.io/dsarab/2048:BUILD-1.0.${BUILD_NUMBER}''
-                 }
+
+                }
             }
         }
 
+
         stage('Publish') {
-                 steps{
-                    sshagent(['github-ssh2']){
+            steps{
+                 sshagent(['github-ssh2']){
                         sh 'git tag BUILD-1.0.${BUILD_NUMBER}'
                         sh 'git push --tags'
-                    }
-                }
-
+                 }
+            }
         }
     }
 }
