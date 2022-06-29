@@ -9,17 +9,13 @@ pipeline {
               steps{
                   sh "trivy filesystem -f json -o results.json ."
                   recordIssues(tools: [trivy(id: 'repo', pattern: 'results.json')])
-
               }
             }
             stage('Parallel2'){
               steps{
-
                     sh "trivy image -f json -o results2.json nginx:latest"
                     recordIssues(tools: [trivy(id: 'image', pattern: 'results2.json')])
-
               }
-
             }
 
             }
@@ -30,7 +26,7 @@ pipeline {
               sh "docker-compose build"
             }
 
-          //post {
+                        //post {
                         //success {
                             //junit 'build/test-results/test/*.xml'
                             //archiveArtifacts 'build/libs/*.jar'
@@ -41,8 +37,9 @@ pipeline {
                          //recordIssues(tools: [trivy(pattern: 'results2.json')])
 
                         //}
+                        //}
+        }
 
-          //}
         stage('Dockerhub'){
              steps{
                 withCredentials([usernamePassword(credentialsId: '8cfe86f5-3821-4503-a33b-76e79a25789d', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
