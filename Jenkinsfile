@@ -47,7 +47,7 @@ pipeline {
                     sh 'docker tag vue-2048 ${USER}/2048:latest'
                     sh 'docker tag vue-2048 ${USER}/2048:BUILD-1.0.${BUILD_NUMBER}'
                     sh 'docker push ${USER}/2048:latest'
-                    sh 'docker push ${USER}/2048:BUILD-1.0.${BUILD_NUMBER'
+                    sh 'docker push ${USER}/2048:BUILD-1.0.${BUILD_NUMBER}'
 
                 }
              }
