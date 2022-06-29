@@ -58,8 +58,7 @@ pipeline {
                  withCredentials([string(credentialsId: 'Git.token', variable: 'TOKEN')]) {
                  sh 'echo "${TOKEN}" | docker login ghcr.io -u dsarab --password-stdin'
 
-                 sh 'docker tag dsarab/vue-2048 ghcr.io/dsarab/2048:latest'
-                 sh 'docker tag dsarab/vue-2048 ghcr.io/dsarab/2048:BUILD-1.0.${BUILD_NUMBER}'
+                 sh 'docker tag app ghcr.io/dsarab/2048:latest'
                  sh 'docker push ghcr.io/dsarab/2048:latest'
                  sh 'docker push ghcr.io/dsarab/2048:BUILD-1.0.${BUILD_NUMBER}'
                  }
