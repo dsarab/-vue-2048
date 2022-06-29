@@ -59,8 +59,8 @@ pipeline {
                  sh 'echo ${PASS} | docker login ghcr.io -u dsarab --password-stdin'
                  sh 'docker tag ${USER}/2048:latest ghcr.io/${USER}/2048:latest'
                  sh 'docker tag ${USER}/2048:latest ghcr.io/${USER}/2048:BUILD-1.0.${BUILD_NUMBER}'
-                 sh 'docker push ghcr.io/${USER}/prueba-2048:latest'
-                 sh 'docker push ghcr.io/${USER}/prueba-2048:BUILD-1.0.${BUILD_NUMBER}'
+                 sh 'docker push ghcr.io/${USER}/2048:latest'
+                 sh 'docker push ghcr.io/${USER}/2048:BUILD-1.0.${BUILD_NUMBER}'
 
                 }
             }
