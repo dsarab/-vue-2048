@@ -49,8 +49,7 @@ pipeline {
                     sh 'echo "${PASS}" | docker login -u ${USER} --password-stdin'
 
                 }
-              }
-            }
+             }
         }
 
         stage('Publish') {
