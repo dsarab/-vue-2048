@@ -47,7 +47,6 @@ pipeline {
              steps{
                 withCredentials([usernamePassword(credentialsId: '8cfe86f5-3821-4503-a33b-76e79a25789d', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
                     sh 'echo "${PASS}" | docker login -u ${USER} --password-stdin'
-
                 }
              }
         }
@@ -59,6 +58,7 @@ pipeline {
                         sh 'git push --tags'
                     }
                 }
-            }
+
         }
     }
+}
