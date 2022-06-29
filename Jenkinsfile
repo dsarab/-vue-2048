@@ -61,7 +61,7 @@ pipeline {
                  sh 'docker tag dsarab/2048:latest ghcr.io/dsarab/2048:latest'
                  sh 'docker tag dsarab/2048:latest ghcr.io/dsarab/2048:BUILD-1.0.${BUILD_NUMBER'
                  sh 'docker push ghcr.io/dsarab/2048:latest'
-                 sh 'docker push ghcr.io/dsarab/2048:BUILD-1.0.${BUILD_NUMBER}'
+                 sh 'docker push ghcr.io/dsarab/2048:BUILD-1.0.${BUILD_NUMBER}''
                  }
             }
         }
