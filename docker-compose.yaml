@@ -1,7 +1,0 @@
-version: "3.0"
-services:
-  vue2048:
-    image: dsarab/2048:latest
-    build: .
-    ports:
-      - "3000:80"
