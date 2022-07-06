@@ -67,23 +67,25 @@ pipeline {
         }
 
 
-        stage('Publish') {
+
+
+
+        stage('Aws') {
             steps{
-                 sshagent(['github-ssh2']){
-                        sh 'git tag BUILD-1.0.${BUILD_NUMBER}'
-                        sh 'git push --tags'
+                 withAWS(credentials: 'aws', profile: 'default', region: 'eu-west-1') {
+                         ansiblePlaybook credentialsId: 'Sinensia_ok', disableHostKeyChecking: true, playbook: 'ansible/ec2-docker.yaml'
                  }
             }
         }
 
-
-        stage('Aws') {
+        stage('Publish') {
                     steps{
-                         withAWS(credentials: 'aws', profile: 'default', region: 'eu-west-1') {
-                          ansiblePlaybook credentialsId: 'Sinensia_ok', disableHostKeyChecking: true, playbook: 'ansible/ec2-docker.yaml'
+                         sshagent(['github-ssh2']){
+                                sh 'git tag BUILD-1.0.${BUILD_NUMBER}'
+                                sh 'git push --tags'
                          }
                     }
-        }
+                }
 
     }
 }
