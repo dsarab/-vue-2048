@@ -2,25 +2,25 @@ pipeline {
     agent any
     stages{
 
-        stage('Parallel qa') {
-          parallel{
+        //stage('Parallel qa') {
+          //parallel{
 
-            stage('Parallel1'){
-              steps{
-                  sh "trivy filesystem -f json -o results.json ."
-                  recordIssues(tools: [trivy(id: 'repo', pattern: 'results.json')])
-              }
-            }
-            stage('Parallel2'){
-              steps{
-                    sh "trivy image -f json -o results2.json nginx:latest"
-                    recordIssues(tools: [trivy(id: 'image', pattern: 'results2.json')])
-              }
-            }
+            //stage('Parallel1'){
+              //steps{
+                 // sh "trivy filesystem -f json -o results.json ."
+                  //recordIssues(tools: [trivy(id: 'repo', pattern: 'results.json')])
+             // }
+            //}
+            //stage('Parallel2'){
+            //  steps{
+             //       sh "trivy image -f json -o results2.json nginx:latest"
+            //        recordIssues(tools: [trivy(id: 'image', pattern: 'results2.json')])
+           //   }
+           // }
 
-            }
+          //  }
 
-          }
+          //}
         stage('Build') {
             steps {
               sh "docker-compose build"
@@ -75,5 +75,15 @@ pipeline {
                  }
             }
         }
+
+
+        stage('Aws') {
+                    steps{
+                         withAWS(credentials: 'aws', profile: 'default', region: 'eu-west-1') {
+                          ansiblePlaybook credentialsId: 'Sinensia_ok', disableHostKeyChecking: true, playbook: 'ansible/ec2-docker.yaml'
+                         }
+                    }
+        }
+
     }
 }
