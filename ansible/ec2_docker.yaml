@@ -20,7 +20,7 @@
         vpc_subnet_id: "{{ subnet_id }}"
         assign_public_ip: yes
         instance_tags:
-          Name: docker-instance
+          Name: ansible-inst
       register: ec2
 
     - name: Add new instance to host group
