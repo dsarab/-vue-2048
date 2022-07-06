@@ -72,9 +72,9 @@ pipeline {
 
         stage('Aws') {
             steps{
-            //     withAWS(credentials: 'aws', profile: 'default', region: 'eu-west-1') {
-                         ansiblePlaybook credentialsId: 'Sinensia_ok', disableHostKeyChecking: true, playbook: 'ansible/ec2-docker.yaml'
-              //   }
+                withAWS(credentials: 'aws', profile: 'default', region: 'eu-west-1') {
+                         ansiblePlaybook credentialsId: 'ssh-ansible', disableHostKeyChecking: true, playbook: 'ansible/ec2_docker.yaml', colorized: true
+                }
             }
         }
 
