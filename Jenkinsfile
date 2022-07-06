@@ -70,13 +70,13 @@ pipeline {
 
 
 
-        //stage('Aws') {
-          //  steps{
+        stage('Aws') {
+            steps{
             //     withAWS(credentials: 'aws', profile: 'default', region: 'eu-west-1') {
                          ansiblePlaybook credentialsId: 'Sinensia_ok', disableHostKeyChecking: true, playbook: 'ansible/ec2-docker.yaml'
               //   }
-            //}
-        //}
+            }
+        }
 
         stage('Publish') {
                     steps{
