@@ -2,6 +2,7 @@ version: "3.0"
 services:
   vue2048:
     image: dsarab/2048:latest
+    restart: always
     build: .
     ports:
       - "3000:80"
