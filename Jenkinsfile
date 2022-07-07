@@ -64,10 +64,12 @@ pipeline {
 
     stage('Terraform') {
       steps {
-        sh 'terraform init'
-        sh 'terraform fmt'
-        sh 'terraform validate'
-        sh 'terraform apply'
+        withAWS(credentials: 'aws', region: 'eu-west-1') {
+          sh 'terraform init'
+          sh 'terraform fmt'
+          sh 'terraform validate'
+          sh 'terraform apply --auto-approve'
+        }
       }
     }
 
