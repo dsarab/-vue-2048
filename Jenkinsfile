@@ -77,7 +77,8 @@ pipeline {
     stage('Ansible') {
       steps {
         withAWS(credentials: 'aws', region: 'eu-west-1') {
-          ansiblePlaybook credentialsId: 'ssh-ansible', disableHostKeyChecking: true, playbook: 'ansible/ec2_provision.yml', colorized: true
+          sh 'ansible-playbook -i aws_ec2.yml ec2_provision.yml'
+          //ansiblePlaybook credentialsId: 'ssh-ansible', disableHostKeyChecking: true, playbook: 'ansible/ec2_provision.yml', colorized: true
         }
       }
     }
