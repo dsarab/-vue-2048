@@ -19,10 +19,10 @@ resource "aws_instance" "app_server" {
   vpc_security_group_ids = var.vpc_security_group_ids
   key_name               = var.key_name
   subnet_id              = var.subnet_id
-  count                  = 4
+  count                  = 2
 
   tags = {
-    Name = "terraformInstance"
+    Name = var.name
     APP  = "vue2048"
   }
 }

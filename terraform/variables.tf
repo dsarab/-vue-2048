@@ -27,3 +27,10 @@ variable "subnet_id" {
   type        = string
   default     = "subnet-0b7cf7c1dfd0a6dbd"
 }
+
+variable "name" {
+  description = "Value of the name for the Docker container"
+  type        = string
+  default     = "terraformInstance"
+}
+
