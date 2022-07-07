@@ -61,10 +61,21 @@ pipeline {
         }
       }
     }
-    stage('Aws') {
+
+    stage('Terraform') {
+      steps {
+        sh 'terraform init'
+        sh 'terraform fmt'
+        sh 'terraform validate'
+        sh 'terraform apply'
+      }
+    }
+
+
+    stage('Ansible') {
       steps {
         withAWS(credentials: 'aws', region: 'eu-west-1') {
-          ansiblePlaybook credentialsId: 'ssh-ansible', disableHostKeyChecking: true, playbook: 'ansible/ec2_docker.yaml', colorized: true
+          ansiblePlaybook credentialsId: 'ssh-ansible', disableHostKeyChecking: true, playbook: 'ansible/ec2_provision.yml', colorized: true
         }
       }
     }
