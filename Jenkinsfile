@@ -76,7 +76,7 @@ pipeline {
       }
     }
 
-    if (build = 1) {
+    if (build == 1) {
       stage('Terraform') {
         steps {
           withAWS(credentials: 'aws', region: 'eu-west-1') {
