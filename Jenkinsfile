@@ -41,6 +41,15 @@ pipeline {
       //}
       //}
     }
+
+
+    stage('Build Kubernetes') {
+      steps {
+        withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'cert-kubernetes', namespace: 'default', serverUrl: 'https://192.168.49.2:8443') {
+            sh "kubectl apply -f kubernetes/vue2048.yaml"
+        }
+      }
+    }
     stage('Dockerhub') {
       steps {
         withCredentials([usernamePassword(credentialsId: '8cfe86f5-3821-4503-a33b-76e79a25789d', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
@@ -65,6 +74,7 @@ pipeline {
       }
     }
 
+
     stage('Terraform') {
       steps {
         withAWS(credentials: 'aws', region: 'eu-west-1') {
@@ -85,6 +95,7 @@ pipeline {
         }
       }
     }
+
     stage('Publish') {
       steps {
         sshagent(['github-ssh2']) {
