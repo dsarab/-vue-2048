@@ -88,7 +88,6 @@ pipeline {
         }
       }
 
-
       stage('Ansible') {
         steps {
           withAWS(credentials: 'aws', region: 'eu-west-1') {
