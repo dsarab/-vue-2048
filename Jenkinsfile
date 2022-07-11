@@ -1,7 +1,9 @@
 pipeline {
   agent any
+  def build = 0
   options{
     ansiColor('xterm')
+
   }
   stages {
 
@@ -74,28 +76,28 @@ pipeline {
       }
     }
 
+    if (build = 1) {
+      stage('Terraform') {
+        steps {
+          withAWS(credentials: 'aws', region: 'eu-west-1') {
+            sh 'terraform -chdir=terraform init'
+            sh 'terraform -chdir=terraform fmt'
+            sh 'terraform -chdir=terraform validate'
+            sh 'terraform -chdir=terraform apply --auto-approve'
+          }
+        }
+      }
 
-    stage('Terraform') {
-      steps {
-        withAWS(credentials: 'aws', region: 'eu-west-1') {
-          sh 'terraform -chdir=terraform init'
-          sh 'terraform -chdir=terraform fmt'
-          sh 'terraform -chdir=terraform validate'
-          sh 'terraform -chdir=terraform apply --auto-approve'
+
+      stage('Ansible') {
+        steps {
+          withAWS(credentials: 'aws', region: 'eu-west-1') {
+            //sh 'ansible-playbook -i ansible/aws_ec2.yml ec2_provision.yml'
+            ansiblePlaybook credentialsId: 'ssh-ansible', inventory: 'ansible/aws_ec2.yml', disableHostKeyChecking: true, playbook: 'ansible/ec2_provision.yml', colorized: true
+          }
         }
       }
     }
-
-
-    stage('Ansible') {
-      steps {
-        withAWS(credentials: 'aws', region: 'eu-west-1') {
-          //sh 'ansible-playbook -i ansible/aws_ec2.yml ec2_provision.yml'
-          ansiblePlaybook credentialsId: 'ssh-ansible',inventory: 'ansible/aws_ec2.yml', disableHostKeyChecking: true, playbook: 'ansible/ec2_provision.yml', colorized: true
-        }
-      }
-    }
-
     stage('Publish') {
       steps {
         sshagent(['github-ssh2']) {
