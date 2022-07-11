@@ -1,7 +1,7 @@
 pipeline {
   agent any
-  def build = 0
-  options{
+
+  options {
     ansiColor('xterm')
 
   }
@@ -48,7 +48,7 @@ pipeline {
     stage('Build Kubernetes') {
       steps {
         withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'cert-kubernetes', namespace: 'default', serverUrl: 'https://192.168.49.2:8443') {
-            sh "kubectl apply -f kubernetes/vue2048.yaml"
+          sh "kubectl apply -f kubernetes/vue2048.yaml"
         }
       }
     }
@@ -76,27 +76,27 @@ pipeline {
       }
     }
 
-    if (build == 1) {
-      stage('Terraform') {
-        steps {
-          withAWS(credentials: 'aws', region: 'eu-west-1') {
-            sh 'terraform -chdir=terraform init'
-            sh 'terraform -chdir=terraform fmt'
-            sh 'terraform -chdir=terraform validate'
-            sh 'terraform -chdir=terraform apply --auto-approve'
-          }
-        }
-      }
 
-      stage('Ansible') {
-        steps {
-          withAWS(credentials: 'aws', region: 'eu-west-1') {
-            //sh 'ansible-playbook -i ansible/aws_ec2.yml ec2_provision.yml'
-            ansiblePlaybook credentialsId: 'ssh-ansible', inventory: 'ansible/aws_ec2.yml', disableHostKeyChecking: true, playbook: 'ansible/ec2_provision.yml', colorized: true
-          }
-        }
-      }
-    }
+//    stage('Terraform') {
+//      steps {
+//        withAWS(credentials: 'aws', region: 'eu-west-1') {
+//          sh 'terraform -chdir=terraform init'
+//          sh 'terraform -chdir=terraform fmt'
+//          sh 'terraform -chdir=terraform validate'
+//          sh 'terraform -chdir=terraform apply --auto-approve'
+//        }
+//      }
+//    }
+
+//    stage('Ansible') {
+//      steps {
+//        withAWS(credentials: 'aws', region: 'eu-west-1') {
+//          //sh 'ansible-playbook -i ansible/aws_ec2.yml ec2_provision.yml'
+//          ansiblePlaybook credentialsId: 'ssh-ansible', inventory: 'ansible/aws_ec2.yml', disableHostKeyChecking: true, playbook: 'ansible/ec2_provision.yml', colorized: true
+//        }
+//      }
+//    }
+
     stage('Publish') {
       steps {
         sshagent(['github-ssh2']) {
